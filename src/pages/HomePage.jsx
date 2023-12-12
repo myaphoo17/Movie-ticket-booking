@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Data from '../Data/MovieTicketOnlineBookingSystem.json';
 import '../components/headerFooter.css';
@@ -6,11 +7,13 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Card from 'react-bootstrap/Card';
 
+
 function Home() {
     const [movies, setMovies] = useState(Data.Tbl_MovieList);
     const cardsPerPage = 3;
     const [currentPage, setCurrentPage] = useState(1);
-
+    const [selectedMovie, setSelectedMovie] = useState(null);
+    const navigateTo = useNavigate();
     const indexOfLastCard = currentPage * cardsPerPage;
     const indexOfFirstCard = indexOfLastCard - cardsPerPage;
     const currentCards = movies.slice(indexOfFirstCard, indexOfLastCard);
@@ -20,10 +23,16 @@ function Home() {
     };
 
     const handleMovieClick = (movie) => {
-        // Handle movie click logic here
+        setSelectedMovie(movie);
+
+
+        if (navigateTo) {
+            navigateTo("/cinema");
+        }
     };
 
     return (
+
         <div className="body">
             <Header />
             <div className="content text-center">
@@ -74,6 +83,7 @@ function Home() {
             </div>
             <Footer />
         </div>
+
     );
 }
 
